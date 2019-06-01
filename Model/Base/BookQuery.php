@@ -366,7 +366,7 @@ abstract class BookQuery extends ModelCriteria
      *
      * @param     string $bookname The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
+     *;
      * @return $this|ChildBookQuery The current query, for fluid interface
      */
     public function filterByBookname($bookname = null, $comparison = null)
