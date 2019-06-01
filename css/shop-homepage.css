@@ -17,10 +17,16 @@ body {
 
 }
 
-.w-40{
-  width:40% !important;
+.w-45{
+
+}
+.table-chapters tr td{
+  text-align: center;
 }
 
-.w-20{
-  width: 20% !important;
+.table-books tr td:nth-child(3){
+  text-align: center;
+}
+.colon-btn{
+  width: 150px !important;
 }

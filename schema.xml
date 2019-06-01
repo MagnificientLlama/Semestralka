@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="author" idMethod="native" phpName="Author">
+    <column name="authID" phpName="Authid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="authName" phpName="Authname" type="VARCHAR" size="255" required="true"/>
+    <column name="dateOfBirth" phpName="Dateofbirth" type="DATE" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="book" idMethod="native" phpName="Book">
+    <column name="bookID" phpName="Bookid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="bookName" phpName="Bookname" type="VARCHAR" size="255" required="true"/>
+    <column name="yearOfRelease" phpName="Yearofrelease" type="DATE" required="true"/>
+    <column name="bookDescription" phpName="Bookdescription" type="VARCHAR" size="255" required="true"/>
+    <column name="ISBN" phpName="Isbn" type="VARCHAR" size="255" required="true"/>
+    <column name="bookImage" phpName="Bookimage" type="VARCHAR" size="255"/>
+    <column name="author_authID1" phpName="AuthorAuthid1" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="author" name="fk_book_author1">
+      <reference local="author_authID1" foreign="authID"/>
+    </foreign-key>
+    <index name="fk_book_author1_idx">
+      <index-column name="author_authID1"/>
+    </index>
+    <unique name="bookName_UNIQUE">
+      <unique-column name="bookName"/>
+    </unique>
+    <unique name="ISBN_UNIQUE">
+      <unique-column name="ISBN"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="bookinreadinglist" idMethod="native" phpName="Bookinreadinglist">
+    <column name="readingList_RLID" phpName="ReadinglistRlid" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="book_bookID" phpName="BookBookid" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="book" name="fk_readingList_has_book_book1">
+      <reference local="book_bookID" foreign="bookID"/>
+    </foreign-key>
+    <foreign-key foreignTable="readinglist" name="fk_readingList_has_book_readingList1">
+      <reference local="readingList_RLID" foreign="RLID"/>
+    </foreign-key>
+    <index name="fk_readingList_has_book_book1_idx">
+      <index-column name="book_bookID"/>
+    </index>
+    <index name="fk_readingList_has_book_readingList1_idx">
+      <index-column name="readingList_RLID"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="booktagged" idMethod="native" phpName="Booktagged">
+    <column name="tag_tagName" phpName="TagTagname" type="VARCHAR" size="255" primaryKey="true" required="true"/>
+    <column name="book_bookID" phpName="BookBookid" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="book" name="fk_tag_has_book_book1">
+      <reference local="book_bookID" foreign="bookID"/>
+    </foreign-key>
+    <foreign-key foreignTable="tag" name="fk_tag_has_book_tag1">
+      <reference local="tag_tagName" foreign="tagName"/>
+    </foreign-key>
+    <index name="fk_tag_has_book_book1_idx">
+      <index-column name="book_bookID"/>
+    </index>
+    <index name="fk_tag_has_book_tag1_idx">
+      <index-column name="tag_tagName"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="chapter" idMethod="native" phpName="Chapter">
+    <column name="chapterID" phpName="Chapterid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="chapterName" phpName="Chaptername" type="VARCHAR" size="255" required="true"/>
+    <column name="book_bookID" phpName="BookBookid" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="book" name="fk_chapter_book1">
+      <reference local="book_bookID" foreign="bookID"/>
+    </foreign-key>
+    <index name="fk_chapter_book1_idx">
+      <index-column name="book_bookID"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="readinglist" idMethod="native" phpName="Readinglist">
+    <column name="RLID" phpName="Rlid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="RLName" phpName="Rlname" type="VARCHAR" size="255" required="true"/>
+    <column name="user_userID1" phpName="UserUserid1" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="user" name="fk_readingList_user1">
+      <reference local="user_userID1" foreign="userID"/>
+    </foreign-key>
+    <index name="fk_readingList_user1_idx">
+      <index-column name="user_userID1"/>
+    </index>
+    <unique name="RLName_UNIQUE">
+      <unique-column name="RLName"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="tag" idMethod="native" phpName="Tag">
+    <column name="tagName" phpName="Tagname" type="VARCHAR" size="255" primaryKey="true" required="true"/>
+    <column name="tagDescription" phpName="Tagdescription" type="LONGVARCHAR" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="user" idMethod="native" phpName="User">
+    <column name="userID" phpName="Userid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="255" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
+    <column name="privilegy" phpName="Privilegy" type="INTEGER" required="true" defaultValue="1"/>
+    <column name="userAvatar" phpName="Useravatar" type="VARCHAR" size="255"/>
+    <unique name="email_UNIQUE">
+      <unique-column name="email"/>
+    </unique>
+    <unique name="username_UNIQUE">
+      <unique-column name="username"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="userrating" idMethod="native" phpName="Userrating">
+    <column name="ratingID" phpName="Ratingid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="rating" phpName="Rating" type="INTEGER" required="true"/>
+    <column name="user_userID" phpName="UserUserid" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="book_bookID" phpName="BookBookid" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="book" name="fk_UserRating_book1">
+      <reference local="book_bookID" foreign="bookID"/>
+    </foreign-key>
+    <foreign-key foreignTable="user" name="fk_UserRating_user1">
+      <reference local="user_userID" foreign="userID"/>
+    </foreign-key>
+    <index name="fk_UserRating_user1_idx">
+      <index-column name="user_userID"/>
+    </index>
+    <index name="fk_UserRating_book1_idx">
+      <index-column name="book_bookID"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>

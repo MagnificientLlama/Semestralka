@@ -6,7 +6,7 @@
 <div class="container">
 
     <div class="row">
-        <?php require './ProductDisplay.php' ?>
+        <?php require './shop.php' ?>
         <!-- /.row -->
 
     </div>

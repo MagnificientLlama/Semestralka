@@ -2,6 +2,8 @@
 if (isset($_COOKIE['name'])){
     $name = $_COOKIE['name'];
 }
+$home="http://localhost/Semestralka/";
+
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
