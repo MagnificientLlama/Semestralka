@@ -30,7 +30,7 @@ $books = BookQuery::create()->offset($offset*10)->limit(10)->orderByBookid()->fi
             <?php foreach ($books as $book):?>
             <tr>
                 <td><a href="<?=$home."Book.php?bookID=".$book->getBookid()?>"><?=$book->getBookname();?></a></td>
-                <td><?=$book->getAuthor()->getAuthname();?></td>
+                <td><a href="<?=$home."Author.php?authID=".$book->getAuthorAuthid1()?>"><?=$book->getAuthor()->getAuthname();?></a></td>
                 <td ><button class="btn btn-primary">Add</button></td>
             </tr>
             <?php endforeach;?>

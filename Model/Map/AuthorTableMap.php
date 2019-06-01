@@ -59,7 +59,7 @@ class AuthorTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class AuthorTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /**
      * the column name for the authID field
@@ -87,6 +87,11 @@ class AuthorTableMap extends TableMap
     const COL_DATEOFBIRTH = 'author.dateOfBirth';
 
     /**
+     * the column name for the authAvatar field
+     */
+    const COL_AUTHAVATAR = 'author.authAvatar';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -98,11 +103,11 @@ class AuthorTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Authid', 'Authname', 'Dateofbirth', ),
-        self::TYPE_CAMELNAME     => array('authid', 'authname', 'dateofbirth', ),
-        self::TYPE_COLNAME       => array(AuthorTableMap::COL_AUTHID, AuthorTableMap::COL_AUTHNAME, AuthorTableMap::COL_DATEOFBIRTH, ),
-        self::TYPE_FIELDNAME     => array('authID', 'authName', 'dateOfBirth', ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Authid', 'Authname', 'Dateofbirth', 'Authavatar', ),
+        self::TYPE_CAMELNAME     => array('authid', 'authname', 'dateofbirth', 'authavatar', ),
+        self::TYPE_COLNAME       => array(AuthorTableMap::COL_AUTHID, AuthorTableMap::COL_AUTHNAME, AuthorTableMap::COL_DATEOFBIRTH, AuthorTableMap::COL_AUTHAVATAR, ),
+        self::TYPE_FIELDNAME     => array('authID', 'authName', 'dateOfBirth', 'authAvatar', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -112,11 +117,11 @@ class AuthorTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Authid' => 0, 'Authname' => 1, 'Dateofbirth' => 2, ),
-        self::TYPE_CAMELNAME     => array('authid' => 0, 'authname' => 1, 'dateofbirth' => 2, ),
-        self::TYPE_COLNAME       => array(AuthorTableMap::COL_AUTHID => 0, AuthorTableMap::COL_AUTHNAME => 1, AuthorTableMap::COL_DATEOFBIRTH => 2, ),
-        self::TYPE_FIELDNAME     => array('authID' => 0, 'authName' => 1, 'dateOfBirth' => 2, ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Authid' => 0, 'Authname' => 1, 'Dateofbirth' => 2, 'Authavatar' => 3, ),
+        self::TYPE_CAMELNAME     => array('authid' => 0, 'authname' => 1, 'dateofbirth' => 2, 'authavatar' => 3, ),
+        self::TYPE_COLNAME       => array(AuthorTableMap::COL_AUTHID => 0, AuthorTableMap::COL_AUTHNAME => 1, AuthorTableMap::COL_DATEOFBIRTH => 2, AuthorTableMap::COL_AUTHAVATAR => 3, ),
+        self::TYPE_FIELDNAME     => array('authID' => 0, 'authName' => 1, 'dateOfBirth' => 2, 'authAvatar' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -139,6 +144,7 @@ class AuthorTableMap extends TableMap
         $this->addPrimaryKey('authID', 'Authid', 'INTEGER', true, null, null);
         $this->addColumn('authName', 'Authname', 'VARCHAR', true, 255, null);
         $this->addColumn('dateOfBirth', 'Dateofbirth', 'DATE', true, null, null);
+        $this->addColumn('authAvatar', 'Authavatar', 'VARCHAR', false, 255, null);
     } // initialize()
 
     /**
@@ -152,8 +158,17 @@ class AuthorTableMap extends TableMap
     0 => ':author_authID1',
     1 => ':authID',
   ),
-), null, null, 'Books', false);
+), 'CASCADE', null, 'Books', false);
     } // buildRelations()
+    /**
+     * Method to invalidate the instance pool of all tables related to author     * by a foreign key with ON DELETE CASCADE
+     */
+    public static function clearRelatedInstancePool()
+    {
+        // Invalidate objects in related instance pools,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        BookTableMap::clearInstancePool();
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -299,10 +314,12 @@ class AuthorTableMap extends TableMap
             $criteria->addSelectColumn(AuthorTableMap::COL_AUTHID);
             $criteria->addSelectColumn(AuthorTableMap::COL_AUTHNAME);
             $criteria->addSelectColumn(AuthorTableMap::COL_DATEOFBIRTH);
+            $criteria->addSelectColumn(AuthorTableMap::COL_AUTHAVATAR);
         } else {
             $criteria->addSelectColumn($alias . '.authID');
             $criteria->addSelectColumn($alias . '.authName');
             $criteria->addSelectColumn($alias . '.dateOfBirth');
+            $criteria->addSelectColumn($alias . '.authAvatar');
         }
     }
 

@@ -146,14 +146,14 @@ class BooktaggedTableMap extends TableMap
     0 => ':book_bookID',
     1 => ':bookID',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
         $this->addRelation('Tag', '\\Tag', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':tag_tagName',
     1 => ':tagName',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
     } // buildRelations()
 
     /**

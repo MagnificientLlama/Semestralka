@@ -176,7 +176,7 @@ class BookTableMap extends TableMap
     0 => ':author_authID1',
     1 => ':authID',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
         $this->addRelation('Bookinreadinglist', '\\Bookinreadinglist', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
@@ -190,22 +190,33 @@ class BookTableMap extends TableMap
     0 => ':book_bookID',
     1 => ':bookID',
   ),
-), null, null, 'Booktaggeds', false);
+), 'CASCADE', null, 'Booktaggeds', false);
         $this->addRelation('Chapter', '\\Chapter', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':book_bookID',
     1 => ':bookID',
   ),
-), null, null, 'Chapters', false);
+), 'CASCADE', null, 'Chapters', false);
         $this->addRelation('Userrating', '\\Userrating', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':book_bookID',
     1 => ':bookID',
   ),
-), null, null, 'Userratings', false);
+), 'CASCADE', null, 'Userratings', false);
     } // buildRelations()
+    /**
+     * Method to invalidate the instance pool of all tables related to book     * by a foreign key with ON DELETE CASCADE
+     */
+    public static function clearRelatedInstancePool()
+    {
+        // Invalidate objects in related instance pools,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        BooktaggedTableMap::clearInstancePool();
+        ChapterTableMap::clearInstancePool();
+        UserratingTableMap::clearInstancePool();
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.

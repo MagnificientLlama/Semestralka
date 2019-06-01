@@ -38,10 +38,9 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
 
     <div class="row my-4">
         <div class="col-4">
-            <img class="mx-3" width="256" height="256" src="<?=$author->get()?>">
-            <h4 class="text-center"><?=$author->getBookname()?></h4>
-            <h6 class="text-center"><?=$author->getYearofrelease()->format("m.d.Y")?></h6>
-            <p class="text-center"><?=$author->getBookdescription()?></p>
+            <img class="mx-3" width="256" height="256" src="<?=$author->getAuthavatar()?>">
+            <h4 class="text-center"><?=$author->getAuthname()?></h4>
+            <h6 class="text-center"><?=$author->getDateofbirth()->format("m.d.Y")?></h6>
         </div>
         <div class="col-8">
             <table class="table table-sm table-chapters">
@@ -51,9 +50,9 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($books as $chapter): ?>
+                <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><?= $chapter->getChaptername()?></td>
+                        <td><a href="<?=$home."Book.php?bookID=".$book->getBookid()?>"><?=$book->getBookname();?></a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -64,7 +63,7 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
                         <div class="pagination">
                             <?php for ($i = 1; $i <= $pageCount; $i++) { ?>
                                 <a type="button" class="btn <?= $offset + 1 == $i ? "active" : "" ?>"
-                                   href="<?=$home?>Book.php?bookID=<?=$authID?>&offset=<?= $i - 1 ?>"><?= $i ?></a>
+                                   href="<?=$home?>Author.php?authID=<?=$authID?>&offset=<?= $i - 1 ?>"><?= $i ?></a>
 
                             <?php } ?>
                         </div>

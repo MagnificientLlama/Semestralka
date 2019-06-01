@@ -23,10 +23,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAuthorQuery orderByAuthid($order = Criteria::ASC) Order by the authID column
  * @method     ChildAuthorQuery orderByAuthname($order = Criteria::ASC) Order by the authName column
  * @method     ChildAuthorQuery orderByDateofbirth($order = Criteria::ASC) Order by the dateOfBirth column
+ * @method     ChildAuthorQuery orderByAuthavatar($order = Criteria::ASC) Order by the authAvatar column
  *
  * @method     ChildAuthorQuery groupByAuthid() Group by the authID column
  * @method     ChildAuthorQuery groupByAuthname() Group by the authName column
  * @method     ChildAuthorQuery groupByDateofbirth() Group by the dateOfBirth column
+ * @method     ChildAuthorQuery groupByAuthavatar() Group by the authAvatar column
  *
  * @method     ChildAuthorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildAuthorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -53,7 +55,8 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildAuthor findOneByAuthid(int $authID) Return the first ChildAuthor filtered by the authID column
  * @method     ChildAuthor findOneByAuthname(string $authName) Return the first ChildAuthor filtered by the authName column
- * @method     ChildAuthor findOneByDateofbirth(string $dateOfBirth) Return the first ChildAuthor filtered by the dateOfBirth column *
+ * @method     ChildAuthor findOneByDateofbirth(string $dateOfBirth) Return the first ChildAuthor filtered by the dateOfBirth column
+ * @method     ChildAuthor findOneByAuthavatar(string $authAvatar) Return the first ChildAuthor filtered by the authAvatar column *
 
  * @method     ChildAuthor requirePk($key, ConnectionInterface $con = null) Return the ChildAuthor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAuthor requireOne(ConnectionInterface $con = null) Return the first ChildAuthor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -61,11 +64,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAuthor requireOneByAuthid(int $authID) Return the first ChildAuthor filtered by the authID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAuthor requireOneByAuthname(string $authName) Return the first ChildAuthor filtered by the authName column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAuthor requireOneByDateofbirth(string $dateOfBirth) Return the first ChildAuthor filtered by the dateOfBirth column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAuthor requireOneByAuthavatar(string $authAvatar) Return the first ChildAuthor filtered by the authAvatar column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildAuthor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildAuthor objects based on current ModelCriteria
  * @method     ChildAuthor[]|ObjectCollection findByAuthid(int $authID) Return ChildAuthor objects filtered by the authID column
  * @method     ChildAuthor[]|ObjectCollection findByAuthname(string $authName) Return ChildAuthor objects filtered by the authName column
  * @method     ChildAuthor[]|ObjectCollection findByDateofbirth(string $dateOfBirth) Return ChildAuthor objects filtered by the dateOfBirth column
+ * @method     ChildAuthor[]|ObjectCollection findByAuthavatar(string $authAvatar) Return ChildAuthor objects filtered by the authAvatar column
  * @method     ChildAuthor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -164,7 +169,7 @@ abstract class AuthorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT authID, authName, dateOfBirth FROM author WHERE authID = :p0';
+        $sql = 'SELECT authID, authName, dateOfBirth, authAvatar FROM author WHERE authID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -361,6 +366,31 @@ abstract class AuthorQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AuthorTableMap::COL_DATEOFBIRTH, $dateofbirth, $comparison);
+    }
+
+    /**
+     * Filter the query on the authAvatar column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAuthavatar('fooValue');   // WHERE authAvatar = 'fooValue'
+     * $query->filterByAuthavatar('%fooValue%', Criteria::LIKE); // WHERE authAvatar LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $authavatar The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     */
+    public function filterByAuthavatar($authavatar = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($authavatar)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AuthorTableMap::COL_AUTHAVATAR, $authavatar, $comparison);
     }
 
     /**

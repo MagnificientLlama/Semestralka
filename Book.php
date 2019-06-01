@@ -53,7 +53,7 @@ $chapters = ChapterQuery::create()->filterByBookBookid($bookID)->offset($offset*
                 <tbody>
                 <?php foreach ($chapters as $chapter): ?>
                 <tr>
-                    <td><?= $chapter->getChaptername()?></td>
+                    <td><a href="<?=$home."chapter.php?chapterID=".$chapter->getChapterid()?>"><?=$chapter->getChaptername();?></td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>

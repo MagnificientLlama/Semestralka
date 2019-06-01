@@ -4,6 +4,7 @@
     <column name="authID" phpName="Authid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="authName" phpName="Authname" type="VARCHAR" size="255" required="true"/>
     <column name="dateOfBirth" phpName="Dateofbirth" type="DATE" required="true"/>
+    <column name="authAvatar" phpName="Authavatar" type="VARCHAR" size="255"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -16,7 +17,7 @@
     <column name="ISBN" phpName="Isbn" type="VARCHAR" size="255" required="true"/>
     <column name="bookImage" phpName="Bookimage" type="VARCHAR" size="255"/>
     <column name="author_authID1" phpName="AuthorAuthid1" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="author" name="fk_book_author1">
+    <foreign-key foreignTable="author" name="fk_book_author1" onDelete="CASCADE">
       <reference local="author_authID1" foreign="authID"/>
     </foreign-key>
     <index name="fk_book_author1_idx">
@@ -54,10 +55,10 @@
   <table name="booktagged" idMethod="native" phpName="Booktagged">
     <column name="tag_tagName" phpName="TagTagname" type="VARCHAR" size="255" primaryKey="true" required="true"/>
     <column name="book_bookID" phpName="BookBookid" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="book" name="fk_tag_has_book_book1">
+    <foreign-key foreignTable="book" name="fk_tag_has_book_book1" onDelete="CASCADE">
       <reference local="book_bookID" foreign="bookID"/>
     </foreign-key>
-    <foreign-key foreignTable="tag" name="fk_tag_has_book_tag1">
+    <foreign-key foreignTable="tag" name="fk_tag_has_book_tag1" onDelete="CASCADE">
       <reference local="tag_tagName" foreign="tagName"/>
     </foreign-key>
     <index name="fk_tag_has_book_book1_idx">
@@ -74,7 +75,7 @@
     <column name="chapterID" phpName="Chapterid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="chapterName" phpName="Chaptername" type="VARCHAR" size="255" required="true"/>
     <column name="book_bookID" phpName="BookBookid" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="book" name="fk_chapter_book1">
+    <foreign-key foreignTable="book" name="fk_chapter_book1" onDelete="CASCADE">
       <reference local="book_bookID" foreign="bookID"/>
     </foreign-key>
     <index name="fk_chapter_book1_idx">
@@ -88,7 +89,7 @@
     <column name="RLID" phpName="Rlid" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="RLName" phpName="Rlname" type="VARCHAR" size="255" required="true"/>
     <column name="user_userID1" phpName="UserUserid1" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="user" name="fk_readingList_user1">
+    <foreign-key foreignTable="user" name="fk_readingList_user1" onDelete="CASCADE">
       <reference local="user_userID1" foreign="userID"/>
     </foreign-key>
     <index name="fk_readingList_user1_idx">
@@ -130,10 +131,10 @@
     <column name="rating" phpName="Rating" type="INTEGER" required="true"/>
     <column name="user_userID" phpName="UserUserid" type="INTEGER" primaryKey="true" required="true"/>
     <column name="book_bookID" phpName="BookBookid" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="book" name="fk_UserRating_book1">
+    <foreign-key foreignTable="book" name="fk_UserRating_book1" onDelete="CASCADE">
       <reference local="book_bookID" foreign="bookID"/>
     </foreign-key>
-    <foreign-key foreignTable="user" name="fk_UserRating_user1">
+    <foreign-key foreignTable="user" name="fk_UserRating_user1" onDelete="CASCADE">
       <reference local="user_userID" foreign="userID"/>
     </foreign-key>
     <index name="fk_UserRating_user1_idx">

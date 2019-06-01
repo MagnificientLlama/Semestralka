@@ -158,14 +158,14 @@ class UserratingTableMap extends TableMap
     0 => ':book_bookID',
     1 => ':bookID',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
         $this->addRelation('User', '\\User', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':user_userID',
     1 => ':userID',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
     } // buildRelations()
 
     /**

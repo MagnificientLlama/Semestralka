@@ -88,6 +88,13 @@ abstract class Author implements ActiveRecordInterface
     protected $dateofbirth;
 
     /**
+     * The value for the authavatar field.
+     *
+     * @var        string
+     */
+    protected $authavatar;
+
+    /**
      * @var        ObjectCollection|ChildBook[] Collection to store aggregation of ChildBook objects.
      */
     protected $collBooks;
@@ -373,6 +380,16 @@ abstract class Author implements ActiveRecordInterface
     }
 
     /**
+     * Get the [authavatar] column value.
+     *
+     * @return string
+     */
+    public function getAuthavatar()
+    {
+        return $this->authavatar;
+    }
+
+    /**
      * Set the value of [authid] column.
      *
      * @param int $v new value
@@ -433,6 +450,26 @@ abstract class Author implements ActiveRecordInterface
     } // setDateofbirth()
 
     /**
+     * Set the value of [authavatar] column.
+     *
+     * @param string $v new value
+     * @return $this|\Author The current object (for fluent API support)
+     */
+    public function setAuthavatar($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->authavatar !== $v) {
+            $this->authavatar = $v;
+            $this->modifiedColumns[AuthorTableMap::COL_AUTHAVATAR] = true;
+        }
+
+        return $this;
+    } // setAuthavatar()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -479,6 +516,9 @@ abstract class Author implements ActiveRecordInterface
                 $col = null;
             }
             $this->dateofbirth = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AuthorTableMap::translateFieldName('Authavatar', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->authavatar = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -487,7 +527,7 @@ abstract class Author implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 3; // 3 = AuthorTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = AuthorTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Author'), 0, $e);
@@ -716,6 +756,9 @@ abstract class Author implements ActiveRecordInterface
         if ($this->isColumnModified(AuthorTableMap::COL_DATEOFBIRTH)) {
             $modifiedColumns[':p' . $index++]  = 'dateOfBirth';
         }
+        if ($this->isColumnModified(AuthorTableMap::COL_AUTHAVATAR)) {
+            $modifiedColumns[':p' . $index++]  = 'authAvatar';
+        }
 
         $sql = sprintf(
             'INSERT INTO author (%s) VALUES (%s)',
@@ -735,6 +778,9 @@ abstract class Author implements ActiveRecordInterface
                         break;
                     case 'dateOfBirth':
                         $stmt->bindValue($identifier, $this->dateofbirth ? $this->dateofbirth->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'authAvatar':
+                        $stmt->bindValue($identifier, $this->authavatar, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -807,6 +853,9 @@ abstract class Author implements ActiveRecordInterface
             case 2:
                 return $this->getDateofbirth();
                 break;
+            case 3:
+                return $this->getAuthavatar();
+                break;
             default:
                 return null;
                 break;
@@ -840,6 +889,7 @@ abstract class Author implements ActiveRecordInterface
             $keys[0] => $this->getAuthid(),
             $keys[1] => $this->getAuthname(),
             $keys[2] => $this->getDateofbirth(),
+            $keys[3] => $this->getAuthavatar(),
         );
         if ($result[$keys[2]] instanceof \DateTimeInterface) {
             $result[$keys[2]] = $result[$keys[2]]->format('c');
@@ -909,6 +959,9 @@ abstract class Author implements ActiveRecordInterface
             case 2:
                 $this->setDateofbirth($value);
                 break;
+            case 3:
+                $this->setAuthavatar($value);
+                break;
         } // switch()
 
         return $this;
@@ -943,6 +996,9 @@ abstract class Author implements ActiveRecordInterface
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setDateofbirth($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setAuthavatar($arr[$keys[3]]);
         }
     }
 
@@ -993,6 +1049,9 @@ abstract class Author implements ActiveRecordInterface
         }
         if ($this->isColumnModified(AuthorTableMap::COL_DATEOFBIRTH)) {
             $criteria->add(AuthorTableMap::COL_DATEOFBIRTH, $this->dateofbirth);
+        }
+        if ($this->isColumnModified(AuthorTableMap::COL_AUTHAVATAR)) {
+            $criteria->add(AuthorTableMap::COL_AUTHAVATAR, $this->authavatar);
         }
 
         return $criteria;
@@ -1082,6 +1141,7 @@ abstract class Author implements ActiveRecordInterface
     {
         $copyObj->setAuthname($this->getAuthname());
         $copyObj->setDateofbirth($this->getDateofbirth());
+        $copyObj->setAuthavatar($this->getAuthavatar());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1376,6 +1436,7 @@ abstract class Author implements ActiveRecordInterface
         $this->authid = null;
         $this->authname = null;
         $this->dateofbirth = null;
+        $this->authavatar = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

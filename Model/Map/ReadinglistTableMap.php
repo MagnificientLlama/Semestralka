@@ -152,7 +152,7 @@ class ReadinglistTableMap extends TableMap
     0 => ':user_userID1',
     1 => ':userID',
   ),
-), null, null, null, false);
+), 'CASCADE', null, null, false);
         $this->addRelation('Bookinreadinglist', '\\Bookinreadinglist', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
