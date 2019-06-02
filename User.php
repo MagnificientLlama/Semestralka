@@ -10,6 +10,7 @@ if (isset($_SESSION['userID'])) {
     $userID = $_SESSION['userID'];
     $user = UserQuery::create()->findOneByUserid($userID);
     $userAvatar=$user->getUseravatar();
+    echo $user->getUseravatar();
     $placeholder='https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg';
 } else {
     header('Location: index.php');
@@ -54,7 +55,7 @@ if($readingList!=NULL) {
 
     <div class="row my-4">
         <div class="col-4">
-            <img class="mx-3" width="256" height="256" src="<?php if($userAvatar!=NULL){ echo $user;}else{echo $placeholder;} ?>">
+            <img class="mx-3" width="256" height="256" src="<?php if($userAvatar!=NULL){ echo $userAvatar;}else{echo $placeholder;} ?>">
             <h4 class="text-center"><?= $user->getUsername() ?></h4>
             <p class="text-center"><?= $user->getEmail() ?></p>
         </div>

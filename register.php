@@ -42,8 +42,8 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
             $readingList->setUserUserid1($user->getUserid());
             $readingList->save();
 
-            //header('Location: login.php');
-            //die();
+            header('Location: login.php');
+            die();
         }
     }
 

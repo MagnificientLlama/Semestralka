@@ -48,9 +48,13 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
             </div>
         </div>
 
+        <div class ="btn btn-primary col-md-4 offset-md-4 mb-2">
+            <a href="./Facebook/login.php" class="text-light">Log in with FB</a>
+        </div>
         <div class ="btn btn-secondary col-md-4 offset-md-4 mb-2">
             <a href="./register.php" class="text-light">Create new account.</a>
         </div>
+
     </main>
 
 <?php

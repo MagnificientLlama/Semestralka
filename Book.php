@@ -59,7 +59,7 @@ $chapters = ChapterQuery::create()->filterByBookBookid($bookID)->offset($offset*
                 </tbody>
             </table>
             <div class="row center">
-                <div class="btn-toolbar center my-2" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-toolbar my-2" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
                         <div class="pagination">
                             <?php for ($i = 1; $i <= $pageCount; $i++) { ?>
