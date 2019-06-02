@@ -10,6 +10,16 @@ if (isset($_GET['offset'])) {
 
     $offset = 0;
 }
+if (isset($_GET['addBook']) && isset($_SESSION['userID'])) {
+    $RLID = ReadinglistQuery::create()->findOneByUserUserid1($_SESSION['userID']);
+    $check = BookinreadinglistQuery::create()->findOneByBookBookid($_GET['addBook']);
+    if ($check == NULL) {
+        $addToRead = new Bookinreadinglist();
+        $addToRead->setBookBookid($_GET['addBook']);
+        $addToRead->setReadinglistRlid($RLID->getRlid());
+        $addToRead->save();
+    }
+}
 if (isset($_GET['submit'])) {
     if (isset($_GET['search'])) {
         $search = $_GET['search'];
@@ -87,7 +97,7 @@ if (isset($_GET['submit'])) {
                         <a href="<?= $home . "Author.php?authID=" . $book->getAuthorAuthid1() ?>"><?= $book->getAuthor()->getAuthname(); ?></a>
                     </td>
                     <td>
-                        <button class="btn btn-primary">Add</button>
+                        <a type="button" href="<?= $home ?>?addBook=<?= $book->getBookid() ?>" class="btn">Add</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

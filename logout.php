@@ -1,6 +1,5 @@
 <?php
-if (isset($_COOKIE['name'])){
-setcookie('name','',time());
-}
-header('Location: index.php');
+session_start();
+session_destroy();
+header('Location:index.php');
 die();
