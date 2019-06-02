@@ -1,6 +1,7 @@
 {
   "require": {
-    "propel/propel": "~2.0@dev"
+    "propel/propel": "~2.0@dev",
+    "facebook/graph-sdk": "^5.7"
   },
   "autoload": {
     "classmap": ["Model/"]

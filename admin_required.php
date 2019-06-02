@@ -1,19 +1,13 @@
 <?php
-require_once './ProductsDB.php';
-session_start();
-if (!isset($_SESSION['userID'])) {
-    header('Location: login.php');
-    die();
-}
 
-$db = new ProductsDB();
-$current_user = $db->fetchUserByID($_SESSION['userID']);
-if (!$current_user) {
-    session_destroy();
+if (isset($_SESSION['userPrivilegy'])) {
+    if ($_SESSION['userPrivilegy'] < 3) {
+        echo $_SESSION['userPrivilegy'];
+        header('Location: index.php');
+        die();
+    }
+}else{
     header('Location: index.php');
     die();
 }
-if($current_user['privilege']!=3){
-    header('Location: index.php');
-    die('Unauthorized Access');
-}
+//echo $_SESSION['userPrivilegy'];

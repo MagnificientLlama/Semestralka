@@ -12,8 +12,8 @@ if (isset($_SESSION['userID'])) {
     $userAvatar=$user->getUseravatar();
     $placeholder='https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg';
 } else {
-    //header('Location: index.php');
-    //die();
+    header('Location: index.php');
+    die();
 }
 if (isset($_GET['readingList'])) {
     $readingList = ReadinglistQuery::create()->filterByUserUserid1($userID)

@@ -20,12 +20,18 @@ $home = ''
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="goodsSetting.php">Goods Administration</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="cart.php">Shopping List</a>
-                </li>
+                <?php if (isset($_SESSION['userPrivilegy'])): ?>
+                    <?php if ($_SESSION['userPrivilegy'] >= 3): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Users.php">Users</a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['userPrivilegy'] >= 2): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Library.php">Library</a>
+                        </li>
+                    <?php endif; ?>
+                <?php endif; ?>
                 <?php if (!isset($name)): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
@@ -33,7 +39,7 @@ $home = ''
                 <?php endif; ?>
                 <?php if (isset($name)): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="User.php"><?= $name?></a>
+                        <a class="nav-link" href="User.php"><?= $name ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>
