@@ -38,9 +38,9 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
 
     <div class="row my-4">
         <div class="col-4">
-            <img class="mx-3" width="256" height="256" src="<?=$author->getAuthavatar()?>">
-            <h4 class="text-center"><?=$author->getAuthname()?></h4>
-            <h6 class="text-center"><?=$author->getDateofbirth()->format("m.d.Y")?></h6>
+            <img class="mx-3" width="256" height="256" src="<?=htmlspecialchars( $author->getAuthavatar())?>">
+            <h4 class="text-center"><?=htmlspecialchars( $author->getAuthname())?></h4>
+            <h6 class="text-center"><?=htmlspecialchars( $author->getDateofbirth()->format("m.d.Y"))?></h6>
         </div>
         <div class="col-8">
             <table class="table table-sm table-chapters">
@@ -52,7 +52,7 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
                 <tbody>
                 <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><a href="<?=$home."Book.php?bookID=".$book->getBookid()?>"><?=$book->getBookname();?></a></td>
+                        <td><a href="<?=$home."Book.php?bookID=".$book->getBookid()?>"><?=htmlspecialchars( $book->getBookname());?></a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

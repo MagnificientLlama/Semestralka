@@ -95,7 +95,7 @@ if (isset($_GET['submit'])) {
             <?php foreach ($books as $book): ?>
                 <tr>
                     <td>
-                        <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?= $book->getBookname(); ?></a>
+                        <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?=htmlspecialchars( $book->getBookname()); ?></a>
                     </td>
                     <td>
                         <a type="button" href="<?= $home ?>updateBook.php?bookID=<?= $book->getBookid() ?>" class="btn">Edit</a>

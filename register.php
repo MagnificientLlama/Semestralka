@@ -67,12 +67,12 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
                     <div class="form-group">
                         <label>Username:</label>
                         <input type="text" class="form-control" name="name"
-                               value="<?php echo isset($name) ? ($name) : ''; ?>">
+                               value="<?php echo isset($name) ? (htmlspecialchars( $name)) : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label>Email:</label>
                         <input type="email" class="form-control" name="email"
-                               value="<?php echo isset($email) ? ($email) : ''; ?>">
+                               value="<?php echo isset($email) ? (htmlspecialchars( $email)) : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label>Password:</label>

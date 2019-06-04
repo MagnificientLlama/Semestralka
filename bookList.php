@@ -91,13 +91,13 @@ if (isset($_GET['submit'])) {
             <?php foreach ($books as $book): ?>
                 <tr>
                     <td>
-                        <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?= $book->getBookname(); ?></a>
+                        <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?=htmlspecialchars( $book->getBookname()); ?></a>
                     </td>
                     <td>
-                        <a href="<?= $home . "Author.php?authID=" . $book->getAuthorAuthid1() ?>"><?= $book->getAuthor()->getAuthname(); ?></a>
+                        <a href="<?= $home . "Author.php?authID=" . $book->getAuthorAuthid1() ?>"><?=htmlspecialchars( $book->getAuthor()->getAuthname()); ?></a>
                     </td>
                     <td>
-                        <a type="button" href="<?= $home ?>?addBook=<?= $book->getBookid() ?>" class="btn">Add</a>
+                        <a type="button" href="<?= $home ?>?addBook=<?=htmlspecialchars( $book->getBookid()) ?>" class="btn">Add</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

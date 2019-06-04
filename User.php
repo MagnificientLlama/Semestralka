@@ -56,14 +56,14 @@ if($readingList!=NULL) {
     <div class="row my-4">
         <div class="col-4">
             <img class="mx-3" width="256" height="256" src="<?php if($userAvatar!=NULL){ echo $userAvatar;}else{echo $placeholder;} ?>">
-            <h4 class="text-center"><?= $user->getUsername() ?></h4>
-            <p class="text-center"><?= $user->getEmail() ?></p>
+            <h4 class="text-center"><?=htmlspecialchars( $user->getUsername()) ?></h4>
+            <p class="text-center"><?= htmlspecialchars( $user->getEmail()) ?></p>
         </div>
         <div class="col-8">
             <table class="table table-sm table-chapters">
                 <thead>
                 <tr>
-                    <th class="text-center"><?php if($readingList!=NULL){echo $readingList->getRlname();}else{echo 'No Reading list created';}?></th>
+                    <th class="text-center"><?php if($readingList!=NULL){echo htmlspecialchars( $readingList->getRlname());}else{echo 'No Reading list created';}?></th>
                     <th class="text-center">Changes</th>
                 </tr>
                 </thead>
@@ -71,7 +71,7 @@ if($readingList!=NULL) {
                 <?php foreach ($books as $book): ?>
                     <tr>
                         <td>
-                            <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?= $book->getBookname(); ?>
+                            <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?=htmlspecialchars( $book->getBookname()); ?>
                         </td>
                         <td>
                             <a type="button" href="<?= $home ?>?removeBook=<?= $book->getBookid() ?>" class="btn">Remove</a>

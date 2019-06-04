@@ -64,7 +64,7 @@ if (isset($_GET['deleteBook'])) {
             <?php foreach ($users as $user): ?>
                 <tr>
                     <td>
-                        <a ><?= $user->getUsername(); ?></a>
+                        <a ><?=htmlspecialchars( $user->getUsername()); ?></a>
                     </td>
                     <td>
                         <a type="button" href="<?= $home ?>Users.php?userID=<?= $user->getUserid() ?>&setPrivilegy=1" class="btn">User</a>

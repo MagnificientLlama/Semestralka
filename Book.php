@@ -68,10 +68,10 @@ if($listOfRatings->count()>0){
     <div class="row my-4">
         <div class="col-4">
             <img class="mx-3" width="256" height="256" src="<?= $book->getBookimage() ?>">
-            <h4 class="text-center"><?= $book->getBookname() ?></h4>
-            <h3>Rating: <?=$averageRating?></h3>
-            <h6 class="text-center"><?= $book->getYearofrelease()->format("m.d.Y") ?></h6>
-            <p class="text-center"><?= $book->getBookdescription() ?></p>
+            <h4 class="text-center"><?=htmlspecialchars( $book->getBookname()) ?></h4>
+            <h3>Rating: <?=htmlspecialchars( $averageRating) ?></h3>
+            <h6 class="text-center"><?= htmlspecialchars( $book->getYearofrelease()->format("m.d.Y")) ?></h6>
+            <p class="text-center"><?= htmlspecialchars( $book->getBookdescription()) ?></p>
         </div>
         <div class="col-8">
             <div class="row justify-content-between m-2">

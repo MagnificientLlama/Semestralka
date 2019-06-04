@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['username'])) {
-    $name = $_SESSION['username'];
+    $navbarName = $_SESSION['username'];
 }
 $home = ''
 ?>
@@ -32,14 +32,14 @@ $home = ''
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
-                <?php if (!isset($name)): ?>
+                <?php if (!isset($navbarName)): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>
                     </li>
                 <?php endif; ?>
-                <?php if (isset($name)): ?>
+                <?php if (isset($navbarName)): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="User.php"><?= $name ?></a>
+                        <a class="nav-link" href="User.php"><?= $navbarName ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>

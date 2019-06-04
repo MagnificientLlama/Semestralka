@@ -84,32 +84,32 @@ if (!empty($_POST)) {
                     <div class="form-group">
                         <label>Name:</label>
                         <input type="text" class="form-control" name="name"
-                               value="<?php echo isset($name) ? ($name) : ''; ?>">
+                               value="<?php echo isset($name) ? (htmlspecialchars( $name)) : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label>Description:</label>
                         <textarea name="description" cols="40"
-                                  rows="5"><?php echo isset($description) ? ($description) : ''; ?></textarea>
+                                  rows="5"><?php echo isset($description) ? (htmlspecialchars( $description)) : ''; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label>Book Image:</label>
                         <input type="url" class="form-control" name="bookImage"
-                               value="<?php echo isset($image) ? ($image) : ''; ?>">
+                               value="<?php echo isset($image) ? (htmlspecialchars( $image)) : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label>ISBN:</label>
                         <input type="text" class="form-control" name="ISBN"
-                               value="<?php echo isset($ISBN) ? ($ISBN) : ''; ?>">
+                               value="<?php echo isset($ISBN) ? (htmlspecialchars( $ISBN)) : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label>Date of Release:</label>
                         <input type="date" class="form-control" name="date"
-                               value="<?php echo isset($_POST['date'])? $date : ($date->format('Y-m-d')); ?>">
+                               value="<?php echo isset($_POST['date'])? htmlspecialchars( $date) : (htmlspecialchars( $date->format('Y-m-d'))); ?>">
                     </div>
                     <div class="form-group">
                         <label>Name of Author:</label>
                         <input type="text" class="form-control" name="author"
-                               value="<?php echo isset($author) ? ($author) : ''; ?>">
+                               value="<?php echo isset($author) ? (htmlspecialchars( $author)) : ''; ?>">
                     </div>
                     <button class="btn btn-primary float-center mb-2" type="submit">Edit</button>
                 </form>
