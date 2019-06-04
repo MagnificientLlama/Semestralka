@@ -7,13 +7,10 @@ if (!isset($_SESSION['fb_access_token'])) {
 }
 
 require_once '../vendor/autoload.php';
+require './config.php';
 require_once '../generated-conf/config.php';
 
-$fb = new \Facebook\Facebook(array_merge([
-    'app_id' => '2398891117009090',
-    'app_secret' => 'be568400f92fbfc7ad044e2f09d669b7',
-    'default_graph_version' => 'v2.10',
-]), ['default_access_token' => $_SESSION['fb_access_token']]);
+$fb = new \Facebook\Facebook(array_merge(CONFIG_FACEBOOK, ['default_access_token' => $_SESSION['fb_access_token']]));
 try {
     $me = $fb->get('/me')->getGraphUser();
     $picture = $fb->get('/me/picture?redirect=false&height=200')->getGraphUser();

@@ -15,5 +15,5 @@
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
-    <link rel="icon" href="http://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Book-icon.png">
+    <link rel="icon" href="https://img.icons8.com/ios/50/000000/book.png">
 </head>

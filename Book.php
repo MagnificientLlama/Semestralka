@@ -77,7 +77,7 @@ if($listOfRatings->count()>0){
             <div class="row justify-content-between m-2">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get">
                     <div class="row justify-content-between">
-                        <div class="form-group">
+                        <div class="input-group">
                             <select class="form-control" name="rating">
                                 <option>1</option>
                                 <option>2</option>
@@ -85,10 +85,11 @@ if($listOfRatings->count()>0){
                                 <option>4</option>
                                 <option>5</option>
                             </select>
+                            <input type="hidden" name="bookID" value="<?= $bookID ?>"/>
+                            <input type="hidden" name="offset" value="<?= $offset ?>"/>
+                            <input type="submit" name="submit" value="Rate:" class="float-right">
                         </div>
-                        <input type="hidden" name="bookID" value="<?= $bookID ?>"/>
-                        <input type="hidden" name="offset" value="<?= $offset ?>"/>
-                        <input type="submit" name="submit" value="Rate:" class="float-right">
+
                     </div>
                 </form>
 
@@ -103,7 +104,8 @@ if($listOfRatings->count()>0){
                 <?php foreach ($chapters as $chapter): ?>
                     <tr>
                         <td>
-                            <a href="<?= $home . "chapter.php?chapterID=" . $chapter->getChapterid() ?>"><?= $chapter->getChaptername(); ?>
+                            <a href="<?= $home . "chapter.php?chapterID=" . $chapter->getChapterid()
+                            ."&bookID=".$bookID."&offset=".$offset ?>"><?= $chapter->getChaptername(); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
