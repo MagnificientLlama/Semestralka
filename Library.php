@@ -129,6 +129,10 @@ if (isset($_GET['submit'])) {
 </div>
 <!-- /.row -->
 <!-- /.container -->
+
+<?php
+require './Footer.php'
+?>
 </body>
 
 </html>

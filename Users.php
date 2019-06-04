@@ -101,6 +101,10 @@ if (isset($_GET['deleteBook'])) {
 </div>
 <!-- /.row -->
 <!-- /.container -->
+
+<?php
+require './Footer.php'
+?>
 </body>
 
 </html>
