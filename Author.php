@@ -46,7 +46,7 @@ $books = BookQuery::create()->filterByAuthorAuthid1($authID)->offset($offset*10)
             <table class="table table-sm table-chapters">
                 <thead>
                 <tr>
-                    <th class="text-center">Chapters</th>
+                    <th class="text-center">Books</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -12,6 +12,11 @@ if (!empty($_POST)) {
 
     if (empty($_POST['name'])) {
         array_push($errors, 'Please enter name of the book.');
+    }else {
+        $checkBookName = BookQuery::create()->findOneByBookname($_POST['name']);
+        if ($checkBookName != NULL) {
+            array_push($errors, 'This Book is already in databse');
+        }
     }
     if (empty($_POST['description'])) {
         array_push($errors, 'Please enter Description of the book');
@@ -21,6 +26,11 @@ if (!empty($_POST)) {
     }
     if (empty($_POST['ISBN'])) {
         array_push($errors, 'Please enter ISBN');
+    }else{
+        $checkISBN = BookQuery::create()->findOneByISBN($_POST['ISBN']);
+        if ($checkISBN != NULL) {
+            array_push($errors, 'This ISBN is already in use');
+        }
     }
     if (empty($_POST['date'])) {
         array_push($errors, 'Please enter date of release of book.');
@@ -32,14 +42,7 @@ if (!empty($_POST)) {
         if ($checkAuthor == NULL) {
             array_push($errors, 'There is no such Author in the database.');
         }
-        $checkBookName = BookQuery::create()->findOneByBookname($_POST['name']);
-        if ($checkBookName != NULL) {
-            array_push($errors, 'This Book is already in databse');
-        }
-        $checkISBN = BookQuery::create()->findOneByISBN($_POST['ISBN']);
-        if ($checkISBN != NULL) {
-            array_push($errors, 'This ISBN is already in use');
-        }
+
 
     }
 

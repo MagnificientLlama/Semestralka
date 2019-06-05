@@ -1,7 +1,13 @@
 <?php
 require_once './vendor/autoload.php';
 require_once './generated-conf/config.php';
+?>
+<?php require './Header.php'; ?>
+<body>
+<?php require './Navbar.php'; ?>
+<?php
 
+require './manager_required.php';
 if (isset($_GET['offset'])) {
 
     $offset = (int)$_GET['offset'];
@@ -10,16 +16,13 @@ if (isset($_GET['offset'])) {
 
     $offset = 0;
 }
-if (isset($_GET['addBook']) && isset($_SESSION['userID'])) {
-    $RLID = ReadinglistQuery::create()->findOneByUserUserid1($_SESSION['userID']);
-    $check = BookinreadinglistQuery::create()->findOneByBookBookid($_GET['addBook']);
-    if ($check == NULL) {
-        $addToRead = new Bookinreadinglist();
-        $addToRead->setBookBookid($_GET['addBook']);
-        $addToRead->setReadinglistRlid($RLID->getRlid());
-        $addToRead->save();
+if(isset($_GET['deleteAuthor'])){
+    $delete = AuthorQuery::create()->findOneByAuthid($_GET['deleteAuthor']);
+    if ($delete != NULL) {
+        $delete->delete();
     }
 }
+
 if (isset($_GET['submit'])) {
     if (isset($_GET['search'])) {
         $search = $_GET['search'];
@@ -29,39 +32,37 @@ if (isset($_GET['submit'])) {
     }
     if ($search == 1) {
         $wildFilter = '%' . $filter . '%';
-        $books = BookQuery::create()
-            ->filterByBookname($wildFilter, \Propel\Runtime\ActiveQuery\Criteria::LIKE)
-            ->offset($offset * 10)->limit(10)->orderByBookid()->find();
-        $rowCount = $books->count();
+        $authorList = AuthorQuery::create()->useBookQuery()
+            ->filterByBookname($wildFilter, \Propel\Runtime\ActiveQuery\Criteria::LIKE)->endUse()
+            ->offset($offset * 10)->limit(10)->orderByAuthid()->find();
+        $rowCount = $authorList->count();
         $pageCount = (int)($rowCount / 10) + 1;
     } elseif ($search == 2) {
         $wildFilter = '%' . $filter . '%';
-        $authors = AuthorQuery::create()
+        $authorList = AuthorQuery::create()
             ->filterByAuthname($wildFilter, \Propel\Runtime\ActiveQuery\Criteria::LIKE)
-            ->orderByAuthid()->select(array('authID'))->find();
-        $books = BookQuery::create()->filterByAuthorAuthid1($authors->getData())
-            ->offset($offset * 10)->limit(10)->orderByBookid()->find();
-        $rowCount = $books->count();
+            ->orderByAuthid()->find();
+        $rowCount = $authorList->count();
         $pageCount = (int)($rowCount / 10) + 1;
     } elseif ($search == 3) {
         $wildFilter = '%' . $filter . '%';
         $tags = BooktaggedQuery::create()
             ->filterByTagTagname($wildFilter, \Propel\Runtime\ActiveQuery\Criteria::LIKE)
             ->orderByBookBookid()->select(array('book_bookID'))->find();
-        $books = BookQuery::create()->filterByBookid($tags->getData())
-            ->offset($offset * 10)->limit(10)->orderByBookid()->find();
-        $rowCount = $books->count();
+        $authorList = AuthorQuery::create()->useBookQuery()->filterByBookid($tags->getData())
+            ->endUse()-> offset($offset * 10)->limit(10)->orderByAuthid()->find();
+        $rowCount = $authorList->count();
         $pageCount = (int)($rowCount / 10) + 1;
     } else {
-        $rowCount = BookQuery::create()->count();
+        $rowCount = AuthorQuery::create()->count();
         $pageCount = (int)($rowCount / 10) + 1;
-        $books = BookQuery::create()->offset($offset * 10)->limit(10)->orderByBookid()->find();
+        $authorList = AuthorQuery::create()->offset($offset * 10)->limit(10)->orderByAuthid()->find();
     }
 
 } else {
-    $rowCount = BookQuery::create()->count();
+    $rowCount = AuthorQuery::create()->count();
     $pageCount = (int)($rowCount / 10) + 1;
-    $books = BookQuery::create()->offset($offset * 10)->limit(10)->orderByBookid()->find();
+    $authorList = AuthorQuery::create()->offset($offset * 10)->limit(10)->orderByAuthid()->find();
 }
 
 ?>
@@ -79,25 +80,28 @@ if (isset($_GET['submit'])) {
 
             </form>
         </row>
+        <div class="row center my-2 input-group">
+            <a type="button" class="btn center" href="createAuthor.php">Add new Author</a>
+        </div>
         <table class="table table-sm table-books">
             <thead>
             <tr>
-                <th>Book</th>
                 <th>Author</th>
-                <th class="colon-btn">Reading List</th>
+                <th class="colon-btn">Edit Author</th>
+                <th class="colon-btn">Delete Author</th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($books as $book): ?>
+            <?php foreach ($authorList as $author): ?>
                 <tr>
                     <td>
-                        <a href="<?= $home . "Book.php?bookID=" . $book->getBookid() ?>"><?=htmlspecialchars( $book->getBookname()); ?></a>
+                        <a href="<?= $home . "Author.php?authID=" . $author->getAuthid() ?>"><?=htmlspecialchars( $author->getAuthname()); ?></a>
                     </td>
                     <td>
-                        <a href="<?= $home . "Author.php?authID=" . $book->getAuthorAuthid1() ?>"><?=htmlspecialchars( $book->getAuthor()->getAuthname()); ?></a>
+                        <a type="button" href="<?= $home ?>updateAuthor.php?authID=<?= $author->getAuthid() ?>" class="btn">Edit</a>
                     </td>
                     <td>
-                        <a type="button" href="<?= $home ?>?addBook=<?=htmlspecialchars( $book->getBookid()) ?>" class="btn">Add</a>
+                        <a type="button" href="Authors.php?deleteAuthor=<?= $author->getAuthid() ?>" class="btn">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -110,7 +114,7 @@ if (isset($_GET['submit'])) {
                 <div class="pagination">
                     <?php for ($i = 1; $i <= $pageCount; $i++) { ?>
                         <a type="button" class="btn <?= $offset + 1 == $i ? "active" : "" ?>"
-                           href="<?= $home ?>?offset=<?= $i - 1 ?><?php if (isset($filter)) {
+                           href="?offset=<?= $i - 1 ?><?php if (isset($filter)) {
                                echo '&filter=' . $filter . '&submit=' . $_GET['submit'] . '&search=' . $search . '#';
                            } ?>">
                             <?= $i ?></a>
@@ -125,6 +129,10 @@ if (isset($_GET['submit'])) {
 </div>
 <!-- /.row -->
 <!-- /.container -->
+
+<?php
+require './Footer.php'
+?>
 </body>
 
 </html>
