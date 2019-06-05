@@ -90,8 +90,7 @@ if (isset($_GET['submit'])) {
                             <a><?= htmlspecialchars($searchBook->getBookname()); ?></a>
                         </td>
                         <td>
-                            <a type="button" href="updateTag.php?addTag=
-                            <?= $searchBook->getBookid() . "&tagName=" . $tagName ?>" class="btn float-right">
+                            <a type="button" href="updateTag.php?addTag=<?= $searchBook->getBookid() . "&tagName=" . $tagName ?>" class="btn float-right">
                                 Add
                             </a>
                         </td>

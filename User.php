@@ -10,7 +10,6 @@ if (isset($_SESSION['userID'])) {
     $userID = $_SESSION['userID'];
     $user = UserQuery::create()->findOneByUserid($userID);
     $userAvatar=$user->getUseravatar();
-    echo $user->getUseravatar();
     $placeholder='https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg';
 } else {
     header('Location: index.php');
